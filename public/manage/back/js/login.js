@@ -27,7 +27,10 @@ $(function() {
             max: 6,
             message: '用户名长度必须在6到30之间'
           },
-          
+          // 密码错误：
+          callback: {
+            message: '用户名错误'
+          }
         }
       },
       // 效验密码
@@ -43,6 +46,9 @@ $(function() {
             max: 12,
             message: '用户名长度必须在6到30之间'
           },
+          callback: {
+            message: '密码错误'
+          }
         }
       }
     }  
@@ -63,11 +69,18 @@ $(function() {
       success: function (info) {
         console.log(info)
         if(info.error === 1000){
-          alert("用户名不存在");
+          // alert("用户名不存在");
+          // 参数一：field 字段名称
+          // 参数二：status 状态
+          // 参数三：validatorName 配置效验规则，用来配置输出的提示信息。
+          // updateStatus(field, status, validatorName)
+          // NOT_VALIDATED(未校验), VALIDATING(校验中), INVALID(校验失败) or VALID(校验成功)
+          $("#form").data('bootstrapValidator').updateStatus("username", "INVALID", "callback");
           return;
         }
         if (info.error === 1001) {
-          alert("密码错误");
+          // alert("密码错误");
+          $("#form").data('bootstrapValidator').updateStatus("password", "INVALID", "callback");
           return;
         }
         if(info.success) {
